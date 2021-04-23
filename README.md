@@ -6,6 +6,6 @@ data structures project
     - [X] linked list priority queue
     - [X] binary tree data structure that serves as a base for the Huffman tree
     - [X] build a huffman tree using the binary tree
-- [ ] divide tasks
+- [X] divide tasks
 
 
