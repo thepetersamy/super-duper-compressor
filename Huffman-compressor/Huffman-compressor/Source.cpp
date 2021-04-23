@@ -18,6 +18,8 @@ int main() {
 
     printf("opened");
 
+    char map[255] = { 0 };
+
     fclose(file);
 
     return 0;
