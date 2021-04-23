@@ -1,26 +1,38 @@
-#include <stdio.h>
+int main()
+{
+    int map[256] = { 0 };
 
-int main() {
-
-
-    FILE *file;
-    char fileName[100];
+    FILE* file;
+    char fileName[100] ,ch;
     printf("Please enter path to file:\n");
     scanf("%s", fileName);
 
     file = fopen(fileName, "r");
 
-    if(!file){
+    if (!file) {
         printf("file entered can't be found\n");
         printf("exiting...");
         return -1;
     }
+    printf("opened\n");
 
-    printf("opened");
+    while ((ch = fgetc(file)) != EOF)
+    {
+        int current = ch;
+        map[current]++;
 
-    char map[255] = { 0 };
+    }
 
     fclose(file);
+
+
+    for (int i = 0; i < 256; i++) {
+        if (map[i] != 0)
+        {
+            printf("%c : %d\n", i, map[i]);
+        }
+    }
+
 
     return 0;
 }
