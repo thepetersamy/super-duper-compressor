@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "LinkedList.h"
+
 int main()
 {
     int map[256] = { 0 };
@@ -32,6 +37,8 @@ int main()
             printf("%c : %d\n", i, map[i]);
         }
     }
+
+    Node* head;
 
 
     return 0;
