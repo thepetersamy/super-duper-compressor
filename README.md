@@ -20,8 +20,8 @@ data structures project
 
 ## peter
 - [ ] build the huffman tree
-  - [ ] Generate the variable-length codes from the Huffman tree and store them in a file
-  - [ ] The generated codes must be displayed on the screen and saved with the same filename as the input+'.cod'
+- [ ] Generate the variable-length codes from the Huffman tree and store them in a file
+- [ ] The generated codes must be displayed on the screen and saved with the same filename as the input+'.cod'
   
 ## 3sam
 - [ ] Compress the input file using the codes generated from the Huffman tree
@@ -30,8 +30,8 @@ data structures project
 
 ## youssef
 - [ ] Decompress any previously compressed file using the code file 
-- [ ] The decompressed file must match the original uncompressed file.
-- [ ] You must use the code file generated in to retrieve the codes required for the decompression process.
+    - [ ] The decompressed file must match the original uncompressed file.
+    - [ ] You must use the code file generated in to retrieve the codes required for the decompression process.
 
 
 # extra
