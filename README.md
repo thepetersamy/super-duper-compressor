@@ -36,8 +36,6 @@ data structures project
 
 # extra
 - [ ] turn app to command line application
-- [ ]
-
 
 
 # optimisation
