@@ -6,7 +6,7 @@
 int main()
 {
     int map[256] = { 0 };
-
+    
     FILE* file;
     char fileName[100] ,ch;
     printf("Please enter path to file:\n");
@@ -38,7 +38,9 @@ int main()
         }
     }
 
-    Node* head;
+    Node* head=NULL; int x; char y;
+    head = insertLast(head, 1, 'a');
+    head = removeFirst(head, &x, &y);
 
 
     return 0;
