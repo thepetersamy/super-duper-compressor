@@ -26,13 +26,13 @@ data structures project
 - [ ] Generate the variable-length codes from the Huffman tree and store them in a file
 - [ ] The generated codes must be displayed on the screen and saved with the same filename as the input+'.cod'
   
-## 3sam
+## youssef
 
 - [ ] Compress the input file using the codes generated from the Huffman tree
   - [ ] The generated output must have the same filename as the input but with the extension '.com'
   - [ ] The output file cannot have a size larger than the input file
 
-## youssef
+## 3sam
 
 - [ ] Decompress any previously compressed file using the code file
   - [ ] The decompressed file must match the original uncompressed file.
