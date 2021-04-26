@@ -1,13 +1,11 @@
-#pragma once
 #ifndef HUFFMAN_LINKEDLIST_H
 #define HUFFMAN_LINKEDLIST_H
 
-struct Node
-{
+typedef struct Node{
 	int frequency;
 	char data;
 	Node* next;
-};
+}Node;
 
 Node* insertLast(Node* h, int frequency, char item)
 {
@@ -35,25 +33,35 @@ Node* insertLast(Node* h, int frequency, char item)
 }
 
 
-Node* removeFirst(Node* h, int* frequency, char* item)
-{
-	if (h == NULL)
-		return NULL;
+Node* removeFirst(Node* h, int* frequency, char* item){
+    if (h == NULL)
+        return NULL;
 
-	if (h->next == NULL)
-	{
-		*frequency = h->frequency;
-		*item = h->data;
-		free(h);
-		h = NULL;
-	}
-	else
-	{
-		Node* tmp = h->next;
-		free(h);
-		h = tmp;
-	}
-	return h;
+//    if (h->next == NULL)
+//    {
+//        *frequency = h->frequency;
+//        *item = h->data;
+//        free(h);
+//        h = NULL;
+//    }
+//    else
+//    {
+//        *frequency = h->frequency;
+//        *item = h->data;
+//        Node* tmp = h->next;
+//        free(h);
+//        h = tmp;
+//    }
+//    return h;
+
+
+    *item = h->data;    // return item to be removed
+    *frequency = h->frequency;
+    Node* tmp = h;    // receive head in a temp Node
+    h = h->next;    // pointing head to the next Node
+    free(tmp);    // freeing the old head
+
+    return h;
 }
 
 
