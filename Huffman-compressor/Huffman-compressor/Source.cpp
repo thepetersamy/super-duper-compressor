@@ -8,7 +8,7 @@ int main(){
     int x;
     char y;
     Node* head=NULL;
-    head = insertLast(head, 1, 'a');
+    head = insertSort(head, 1, 'a');
     head = removeFirst(head, &x, &y);
 
 
