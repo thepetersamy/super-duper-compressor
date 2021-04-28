@@ -15,14 +15,14 @@ data structures project
 
 - [X] read user specified text
 - [X] use a map or hash table
-- [ ] Implement a linked-list priority queue to dynamically sort the frequency table
-- [ ] Design the required binary tree data structure that serves as a base for the Huffman tree
-  - [ ] Only one binary tree is allowed
-  - [ ] The tree data field must be able to accommodate both the frequency and the value of any character
+- [X] Implement a linked-list priority queue to dynamically sort the frequency table
+- [X] Design the required binary tree data structure that serves as a base for the Huffman tree
+  - [X] Only one binary tree is allowed
+  - [X] The tree data field must be able to accommodate both the frequency and the value of any character
 
 ## peter
 
-- [ ] build the huffman tree
+- [X] build the huffman tree
 - [ ] Generate the variable-length codes from the Huffman tree and store them in a file
 - [ ] The generated codes must be displayed on the screen and saved with the same filename as the input+'.cod'
   
