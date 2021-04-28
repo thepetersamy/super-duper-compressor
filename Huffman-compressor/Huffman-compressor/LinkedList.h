@@ -5,7 +5,7 @@ struct Node
 {
 	int frequency;
 	char data;
-	Node* next;
+	Node* next, * left, * right;
 };
 
 Node* insertSort(Node* h, int frequency, char item)
@@ -16,6 +16,8 @@ Node* insertSort(Node* h, int frequency, char item)
 		h->frequency = frequency;
 		h->data = item;
 		h->next = NULL;
+		h->left = NULL;
+		h->right = NULL;
 	}
 	else if (frequency < h->frequency)
 	{
@@ -24,6 +26,8 @@ Node* insertSort(Node* h, int frequency, char item)
 		h->frequency = frequency;
 		h->data = item;
 		h->next = tmp;
+		h->left = NULL;
+		h->right = NULL;
 	}
 	else
 	{
@@ -39,10 +43,14 @@ Node* insertSort(Node* h, int frequency, char item)
 			it->next->frequency = frequency;
 			it->next->data = item;
 			it->next->next = NULL;
+			it->next->left = NULL;
+			it->next->right = NULL;
 		}
 		else
 		{
 			Node* tmp = (Node*)malloc(sizeof(Node));
+			tmp->left = NULL;
+			tmp->right = NULL;
 			tmp->frequency = frequency;
 			tmp->data = item;
 			tmp->next = it;
@@ -53,21 +61,57 @@ Node* insertSort(Node* h, int frequency, char item)
 	return h;
 }
 
-
-Node* removeFirst(Node* h, int* frequency, char* item)
+Node* findRoot(Node* h)
 {
 	if (h == NULL)
 		return NULL;
 
+	else if (h->next == NULL)
+		return h;
+
 	else
 	{
-		*frequency = h->frequency;
-		*item = h->data;
-		Node* tmp = h->next;
-		free(h);
-		h = tmp;
+		Node* p = (Node*)malloc(sizeof(Node));
+		p->frequency = h->next->frequency + h->frequency;
+		p->data = '\0';
+		p->right = h;
+		p->left = h->next;
+		h = h->next->next;
+
+		if (h == NULL)
+		{
+			h = p;
+			p->next = NULL;
+		}
+		else if (p->frequency < h->frequency)
+		{
+			Node* tmp = h;
+			h = p;
+			h->next = tmp;
+		}
+		else
+		{
+			Node* it = h, * it2 = h;
+			while (it->frequency <= p->frequency && it->next != NULL)
+			{
+				it2 = it;
+				it = it->next;
+			}
+			if (it->next == NULL && it->frequency <= p->frequency)
+			{
+				it->next = p;
+				p->next = NULL;
+			}
+			else
+			{
+				p->next = it;
+				it2->next = p;
+			}
+		}
+		p->left->next = NULL;
+		p->right->next = NULL;
+		findRoot(h);
 	}
-	return h;
 }
 
 
