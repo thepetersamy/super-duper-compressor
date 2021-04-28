@@ -3,9 +3,7 @@
 
 bool generateFrequencyTable(char filePath[], int map[256]){
 	
-	// opt	
-	for(int i=0; i<256; i++)
-		map[i] = 0;
+	map[256] = {0};
 
 	FILE* file;
 	file = fopen(filePath, "r");
