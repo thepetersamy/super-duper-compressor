@@ -21,13 +21,14 @@ int main() {
 
 	Node* ll=NULL;
 	int map[256];
-	generateFrequencyTable("/home/peter/stuff/huff3/test.txt", map);
+	generateFrequencyTable("C:\\Users\\Mohamed-Essam\\Desktop\\huffman-compressor\\Huffman-compressor\\Huffman-compressor\\test.txt", map);
 
 	ll = generatePriorityQueue(ll, map);
-	printList(ll);
-
+	//printList(ll);
+    printFrequencyTable(map);
 	ll = buildHuffmanTree(ll);
 
+    ll = buildHuffmanTree(ll);
 
 
 

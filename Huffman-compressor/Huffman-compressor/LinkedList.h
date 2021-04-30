@@ -87,7 +87,7 @@ Node *buildHuffmanTree(Node *h) {
 		// inserting at middle or end
 		else {
 			Node *itAfter = h, *itBefore = h;
-			while (p->frequency > itAfter->frequency  && itAfter->next != NULL) {
+			while (p->frequency >= itAfter->frequency  && itAfter->next != NULL) {
 				itBefore = itAfter;
 				itAfter = itAfter->next;
 			}
