@@ -1,19 +1,35 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
-#include <string.h>
+#include "FrequencyTable.h"
 #include "LinkedList.h"
+//#include "Utils.h"
 
-int main(){
 
-    int x;
-    char y;
-    Node* head=NULL;
-    
-    head=insertSort(head,80,'a');
-    head=insertSort(head,50,'a');
-    head=insertSort(head,60,'a');
-    head=insertSort(head,70,'a');
-    head=findRoot(head);
+Node *generatePriorityQueue(Node *h, int map[256]){
+	for(int i=0; i<256; i++){
+		if(map[i] != 0){
+			h = insertSort(h, map[i], i);
+		}
+	}
+	return h;
+}
+
+
+
+int main() {
+
+	Node* ll=NULL;
+	int map[256];
+	generateFrequencyTable("/home/peter/stuff/huff3/test.txt", map);
+
+	ll = generatePriorityQueue(ll, map);
+	printList(ll);
+
+	ll = buildHuffmanTree(ll);
+
+
+
 
     return 0;
 }
