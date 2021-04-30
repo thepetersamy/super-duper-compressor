@@ -16,6 +16,24 @@ Node *generatePriorityQueue(Node *h, int map[256]){
 }
 
 
+bool isLeaf(Node* root) {
+	return root->left == NULL && root->right == NULL;
+}
+
+void generateCodes(Node* root, char currentCode[], char* map[]) {
+	if (!root)
+		return;
+	
+	if (isLeaf(root)) {
+		map[root->data] = currentCode;
+	}
+
+	if (isLeaf(root)) {
+		generateCodes(root->left, strcat(currentCode, "0"), map);
+		generateCodes(root->right, strcat(currentCode, "1"), map);
+	}
+}
+
 
 int main() {
 
