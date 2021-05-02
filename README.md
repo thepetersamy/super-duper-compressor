@@ -41,6 +41,7 @@ data structures project
 # extra
 
 - [ ] turn app to command line application
+- [ ] exit if non ascii file entered
 
 # optimisation
 
