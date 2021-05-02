@@ -3,14 +3,15 @@
 
 
 int main() {
+	printf("test");
 
 	Node* LinkedTree = NULL;
 
 	int frequencyMap[256];
 	char* codesMap[256];
-	char current[50];
+	char current[8];
 	
-	char* path = "/home/peter/stuff/huffman-compressor/test.txt";
+	char* path = "/home/peter/stuff/huffman-compressor/Huffman-compressor/Huffman-compressor/test.txt";
 
 	generateFrequencyTable(path, frequencyMap);
 
@@ -20,6 +21,7 @@ int main() {
 
 	generateCodes(LinkedTree, current, codesMap);
 
-	
+
+
     return 0;
 }

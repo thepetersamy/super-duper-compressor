@@ -23,7 +23,7 @@ bool isLeaf(Node* root) {
 	return root->left == NULL && root->right == NULL;
 }
 
-char *concatenateString(char* str1, char* str2){
+char *concatenateString(char* str1, const char* str2){
 	int str1Len = strlen(str1);
 	int str2Len = strlen(str2);
 	int strLen = str1Len + str2Len + 1 ;

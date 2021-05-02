@@ -351,3 +351,5 @@ MigrationBackup/
 #vscode build and config
 .vscode
 Huffman-compressor/Huffman-compressor/Source.exe
+
+testingFiles
