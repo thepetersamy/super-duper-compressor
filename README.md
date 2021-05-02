@@ -23,7 +23,9 @@ data structures project
 ## peter
 
 - [X] build the huffman tree
-- [ ] Generate the variable-length codes from the Huffman tree and store them in a file
+- [X] Generate the variable-length codes from the Huffman tree
+- [ ] build hash table to store codes
+- [ ] serialize hash table into a file with .cod extension 
 - [ ] The generated codes must be displayed on the screen and saved with the same filename as the input+'.cod'
   
 ## youssef
