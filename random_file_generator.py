@@ -24,4 +24,4 @@ def generate_big_random_letters(filename,length):
         f.write(chars)
     pass
 
-generate_big_random_letters("test.txt", 10000)
+generate_big_random_letters("/home/peter/stuff/huffman-compressor/testingFiles/3.txt", 100000000)
