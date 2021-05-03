@@ -73,7 +73,7 @@ void printCodes(char* codesMap[]){
 void generateCodes(Node* root, char* currentCode, char* codesMap[]){
 	initCodesMap(codesMap);	
 	encodeTree(root, currentCode, codesMap);
-	printCodes(codesMap);
+	// printCodes(codesMap);
 }
 
 #endif //HUFFMAN_UTILS_H
