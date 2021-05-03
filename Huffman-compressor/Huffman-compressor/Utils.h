@@ -7,7 +7,7 @@
 #include <string.h>
 #include "FrequencyTable.h"
 #include "LinkedList.h"
-
+#include "HashTable.h"
 
 Node *generatePriorityQueue(Node *h, int map[256]){
 	for(int i=0; i<256; i++){
