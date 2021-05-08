@@ -7,7 +7,7 @@
 #include <string.h>
 #include "FrequencyTable.h"
 #include "LinkedList.h"
-#include "HashTable.h"
+// #include "HashTable.h"
 
 Node *generatePriorityQueue(Node *h, int map[256]){
 	for(int i=0; i<256; i++){
@@ -37,13 +37,37 @@ char *concatenateString(char* str1, const char* str2){
 	for(int j=0;j<str2Len; j++, i++)
 		result[i] = str2[j];
 	
-	result[i+1] = '\0';
+	result[i] = '\0';
 
 
 	return result;
 	
 
 }
+
+char* strcat2(char* str1, const char* str2) {
+	// the default strcat was causing some problems that i did't feel like looking into so i made my own
+	// (it's WET code i know but i don't do that much often)
+	int len1 = strlen(str1);
+	int len2 = strlen(str2);
+	int len3 = len1 + len2 + 1;
+
+	char* str = (char*)malloc(sizeof(char) * len3);
+	str[0] = '\0';
+	int i;
+
+	for (i = 0; i < len1; i++) {
+		str[i] = str1[i];
+	}
+	for (int j = 0; j < len2; j++, ++i) {
+		str[i] = str2[j];
+	}
+	str[i] = '\0';
+
+	return str;
+}
+
+
 void initCodesMap(char* codesMap[]){
 
 	for(int i=0; i<256; i++){
@@ -54,10 +78,10 @@ void initCodesMap(char* codesMap[]){
 void encodeTree(Node* root, char currentCode[], char* codesMap[]) {
 	if (!root)
 		return;
-	
-	else if (isLeaf(root))
+
+	else if (isLeaf(root)) {
 		codesMap[root->data] = currentCode;
-	
+	}
 	encodeTree(root->left, concatenateString(currentCode, "0"), codesMap);
 	encodeTree(root->right, concatenateString(currentCode, "1"), codesMap);
 }
@@ -73,7 +97,7 @@ void printCodes(char* codesMap[]){
 void generateCodes(Node* root, char* currentCode, char* codesMap[]){
 	initCodesMap(codesMap);	
 	encodeTree(root, currentCode, codesMap);
-	// printCodes(codesMap);
+	//printCodes(codesMap);
 }
 
 #endif //HUFFMAN_UTILS_H

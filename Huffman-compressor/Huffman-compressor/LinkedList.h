@@ -7,6 +7,20 @@ typedef struct Node {
 	struct Node *next, *left, *right;
 }Node;
 
+
+void freeLinkedTree(Node *root){
+	// no memory waste what so ever
+	if(root == NULL){
+		free(root);
+		return;
+	}
+	freeLinkedTree(root->left);
+	freeLinkedTree(root->right);
+}
+
+
+
+
 Node *insertSort(Node *h, int frequency, char item) {
 
 	// if Node is empty
