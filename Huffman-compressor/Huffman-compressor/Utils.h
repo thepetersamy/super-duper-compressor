@@ -7,7 +7,7 @@
 #include <string.h>
 #include "FrequencyTable.h"
 #include "LinkedList.h"
-// #include "HashTable.h"
+#include "HashTable.h"
 
 Node *generatePriorityQueue(Node *h, int map[256]){
 	for(int i=0; i<256; i++){
@@ -86,10 +86,22 @@ void encodeTree(Node* root, char currentCode[], char* codesMap[]) {
 	encodeTree(root->right, concatenateString(currentCode, "1"), codesMap);
 }
 
+
+// void encodeTree2(Node* root, char currentCode[], HashTable* table, sizeOfHashTable) {
+// 	if (!root)
+// 		return;
+
+// 	else if (isLeaf(root)) {
+// 		insertItemTable(&table, root->data, currentCode);
+// 	}
+// 	encodeTree(root->left, concatenateString(currentCode, "0"), insertItemTable(&table, root->data, ));
+// 	encodeTree(root->right, concatenateString(currentCode, "1"), codesMap);
+// }
+
 void printCodes(char* codesMap[]){
 	for(int i = 0; i < 256; i++){
 		if(codesMap[i]){
-			printf("%c : %s\n",i, codesMap[i]);
+			printf("%d : %c : %s\n", i, i, codesMap[i]);
 		}
 	}
 }
@@ -97,6 +109,7 @@ void printCodes(char* codesMap[]){
 void generateCodes(Node* root, char* currentCode, char* codesMap[]){
 	initCodesMap(codesMap);	
 	encodeTree(root, currentCode, codesMap);
+
 	//printCodes(codesMap);
 }
 

@@ -16,14 +16,16 @@ int getSizeOfCodesMap(char *codesMap[])
 void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePath)
 {
 	//clearing content "should be opt in future"
-	//FILE* file1 = fopen(filePath, "w");
-	//fclose(file1);
+	FILE* file1 = fopen(filePath, "w");
+	fclose(file1);
 
+	// printf("%d\n", sizeOfCodesMap);
 	FILE *file = fopen(filePath, "a");
-	for (int ch = 0; ch < sizeOfCodesMap; ch++)
+	for (int ch = 0; ch < 256; ch++)
 	{
-		if (codesMap[ch])
+		if (codesMap[ch] != NULL)
 		{
+			printf("%c%s\n", ch, codesMap[ch]);
 			// fwrite(codesMap[i], sizeof(codesMap[i]), sizeOfCodesMap, file);
 			fprintf(file, "%c%s\n", ch, codesMap[ch]);
 			//printf("%c %s\n", ch, codesMap[ch]);
@@ -43,22 +45,6 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 {
 	FILE *file = fopen(filePath, "r");
 
-	//char currentChar;
-	//while ((currentChar = fgetc(file)) != EOF) {
-
-	//	char c;
-	//	char str[50];
-	//	// str[0] = '\0';
-	//	fscanf(file, "%c%s", &c, str);
-	//	// printf("%c : %s\n", c, str);
-	//	// codesMap[(int)c] = str;
-	//	// strcpy(codesMap[c], str);
-	//	printf("%s\n", str);
-	//	// for(int i = 0; i<strlen(str); i++){
-	//	// 	codesMap[c][i] = str
-	//	// }
-
-	//}
 	/*while (!feof(file)) { 
 		char c;
 		char str[50];
@@ -82,32 +68,32 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 	fclose(file);
 }
 
-int binaryWritingFile(char srcName[], char dstName[], char* codesMap[])
-{
-	FILE *src, *dst;
-	src = fopen(srcName, "r");
-	if (!src)
-	{
-		printf("Cannot read input file");
-		return -2;
-	}
-	dst = fopen(dstName, "wb");
-	if (!dst)
-	{
-		printf("Cannot create output file");
-		return -2;
-	}
+// int binaryWritingFile(char srcName[], char dstName[], char* codesMap[])
+// {
+// 	FILE *src, *dst;
+// 	src = fopen(srcName, "r");
+// 	if (!src)
+// 	{
+// 		printf("Cannot read input file");
+// 		return -2;
+// 	}
+// 	dst = fopen(dstName, "wb");
+// 	if (!dst)
+// 	{
+// 		printf("Cannot create output file");
+// 		return -2;
+// 	}
 
-	char currentChar;
-	while ((currentChar = fgetc(src)) != EOF)
-	{
-		// fprintf(dst, "%s", codesMap[currentChar]);
-		fwrite();
-	}
+// 	char currentChar;
+// 	while ((currentChar = fgetc(src)) != EOF)
+// 	{
+// 		// fprintf(dst, "%s", codesMap[currentChar]);
+// 		fwrite(); 
+// 	}
 
-	fclose(src);
-	fclose(dst);
-}
+// 	fclose(src);
+// 	fclose(dst);
+// }
 int main()
 {
 
@@ -120,7 +106,7 @@ int main()
 	char current[50];
 	current[0] = '\0';
 
-	char path[] = "C:\\Users\\Mohamed-Essam\\Desktop\\huffman-compressor\\Huffman-compressor\\Huffman-compressor\\test.txt";
+	char path[] = "TestingFiles/1.txt";
 
 	generateFrequencyTable(path, frequencyMap);
 
@@ -134,12 +120,12 @@ int main()
 	// HashTable tabel[getSizeOfCodesMap(codesMap)];
 
 	int codesMapSize = getSizeOfCodesMap(codesMap);
+	printf("%d\n", codesMapSize);
+	serializeCodesMap(codesMap, codesMapSize, "TestingFiles/codesbin.cod");
 
-	serializeCodesMap(codesMap, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
-
-	binaryWritingFile(path, "C:\\Users\\Mohamed-Essam\\Desktop\\huffman-compressor\\Huffman-compressor\\Huffman-compressor\\out.com", codesMap);
-	printCodes(codesMap);
-	//deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
+	// binaryWritingFile(path, "C:\\Users\\Mohamed-Essam\\Desktop\\huffman-compressor\\Huffman-compressor\\Huffman-compressor\\out.com", codesMap);
+	// printCodes(codesMap);
+	// deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
 	//serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
 
 	return 0;
