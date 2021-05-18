@@ -1,52 +1,5 @@
-// #ifndef HUFFMAN_HASHTABLE_H
-// #define HUFFMAN_HASHTABLE_H
-
-
-// void insert(char character, char code[]) {
-
-//    struct HashTable *item = (struct HashTable*) malloc(sizeof(struct HashTable));
-//    item->code = code;  
-//    item->character = character;
-
-//    //get the hash 
-//    int hashIndex = hashCode(key);
-
-//    //move in array until an empty or deleted cell
-//    while(hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != -1) {
-//       //go to next cell
-//       ++hashIndex;
-		
-//       //wrap around the table
-//       hashIndex %= SIZE;
-//    }
-	
-//    hashArray[hashIndex] = item;
-// }
-
-
-
-// void insertCode(HashTable *table, char character, char code[]){
-//     table = (HashTable*)malloc(sizeof(HashTable));
-
-//     while
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#ifndef HUFFMAN_HASHTABLE_H
+#define HUFFMAN_HASHTABLE_H
 
 typedef struct HashTable {
    	char character;
@@ -57,7 +10,7 @@ void insertItemTable(HashTable *table, char character, char code[]){
 	// table = (HashTable*)malloc(sizeof(HashTable));
 	table->character = character;
 	// table->code = code;
-	stpcpy(table->code, code);
+	strcpy(table->code, code);
 
 }
 void printTable(HashTable tables[], int sizeOfTable){
@@ -114,4 +67,4 @@ void deserializeHashTable(HashTable table[],int sizeOfTable, char* filePath){
 
 
 
-// #endif //HUFFMAN_HASHTABLE_H
+#endif //HUFFMAN_HASHTABLE_H
