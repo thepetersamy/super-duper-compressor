@@ -82,8 +82,22 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 	fclose(file);
 }
 
-int binaryWritingFile(char srcName[], char dstName[], char* codesMap[])
+size_t getFileCharNumbers(FILE* file)
+{  
+    size_t count = 0;  
+	fseek(file, 0, SEEK_SET);
+    char c;  
+    for (c = getc(file); c != EOF; c = getc(file))
+        count = count + 1;
+
+    fclose(file);
+  
+    return count;
+} 
+
+int binaryWritingFile(char srcName[], char dstName[], char *codesMap[])
 {
+	char x = 127;
 	FILE *src, *dst;
 	src = fopen(srcName, "r");
 	if (!src)
@@ -91,26 +105,49 @@ int binaryWritingFile(char srcName[], char dstName[], char* codesMap[])
 		printf("Cannot read input file");
 		return -2;
 	}
-	dst = fopen(dstName, "wb");
+	dst = fopen(dstName, "wb+");
 	if (!dst)
 	{
 		printf("Cannot create output file");
 		return -2;
 	}
-
 	char currentChar;
+	// fprintf(dst, "%c%c", x, 3);
+	// int count = 0;
+	// char _8bin[] = "";
 	while ((currentChar = fgetc(src)) != EOF)
 	{
-		// fprintf(dst, "%s", codesMap[currentChar]);
-		fwrite();
+		fprintf(dst, "%s", codesMap[currentChar]);
 	}
+	int charNumb;
+	charNumb = ftell(dst); 
+	
+	fseek(dst, 0, SEEK_SET); //to start from the begining
+	
+	int extraZeros;
 
+	extraZeros = charNumb % 8;
+	for(int i = 0; i < extraZeros; i++)
+		fprintf(dst,"0");
+	
+	// while ((currentChar = fgetc(dst)) != EOF)
+	// {
+	// 	// int digit = (int)currentChar;
+	// 	count++;
+	// 	_8bin[count] = currentChar;
+	// 	if (count == 8)
+	// 	{
+	// 		printf("%d", count);
+	// 	}
+	// 	// fwrite();
+	// }
 	fclose(src);
 	fclose(dst);
 }
 int main()
 {
-
+	int x = 1227;
+	printf("%8d", x);
 	Node *LinkedTree = NULL;
 
 	int frequencyMap[256];
