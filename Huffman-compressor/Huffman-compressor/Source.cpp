@@ -105,16 +105,12 @@ int convertStrToInt(char str[]){
 	return result;
 }
 void strcat3(char dst[], char src){
-	// for(int i = 0; i< strlen(dst); i++){
-	// 	dst
-	// }
-
-	int len = strlen(dst);
-	
+	int len = strlen(dst);	
+	// printf("len : %d", len);
 	dst[len] = src;
 	dst[len+1] = '\0';
 }
-int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
+int compress(char srcName[], char dstName[], char *codesMap[]) {
 
 	FILE *src, *tmpFile, *dst;
 	src = fopen(srcName, "r");
@@ -162,6 +158,7 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 	int eightNums = ftell(tmpFile) / 8;
 	int counter = 0;
 	char currentCode[8];
+	currentCode[0] = '\0';
 	while ((currentChar = fgetc(tmpFile)) != EOF){
 		// char currentCharStr[2];
 		// currentCharStr[0] = currentChar;
@@ -169,17 +166,21 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 		// strcat(currentCode, currentCharStr);
 		// printf("%s", currentCharStr);
 		// printf("code : %s\n", currentCode);
+		// printf("%c", currentChar);
 		strcat3(currentCode, currentChar);
 
 
 
 		if (++counter % 8 == 0){ //BYT3AML M3AHOM B3D MB2O 8 ASLUN
-			printf("code : %s\n", currentCode);
+
+			// printf("%s\n", currentCode);
 			int decEq = convertBinToDec(convertStrToInt(currentCode));
-			fprintf(dst, "%d", currentCode);
+			// printf("dec : %d\n", decEq);
+			fprintf(dst, "%c", decEq);
 			currentCode[0] = '\0';
 		}
 	}
+	remove("tmp.bin");
 
 	// int *eightBin = (int *)malloc(sizeof(int));
 	// int count;
@@ -197,6 +198,10 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 	fclose(src);
 	fclose(tmpFile);
 }
+
+void decompress(char srcName[], char dstName[], char *codesMap[]){
+
+}
 int main()
 {
 	Node *LinkedTree = NULL;
@@ -208,7 +213,7 @@ int main()
 	char current[50];
 	current[0] = '\0';
 
-	char path[] = "TestingFiles/test.txt";
+	char path[] = "D:/stuff/DCW/input.txt";
 
 	generateFrequencyTable(path, frequencyMap);
 
@@ -226,10 +231,10 @@ int main()
 	// serializeCodesMap(codesMap, codesMapSize, "TestingFiles/codesbin.cod");
 	char path2[] = "TestingFiles/out.com";
 
-	binaryWritingFile(path, path2, codesMap);
+	compress(path, path2, codesMap);
 	// printCodes(codesMap);
 	// deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
-	//serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
+	serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
 	
 	return 0;
-}
+} 
