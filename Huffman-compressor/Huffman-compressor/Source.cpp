@@ -1,5 +1,4 @@
 #include "Utils.h"
-
 int getSizeOfCodesMap(char *codesMap[])
 {
 	int counter = 0;
@@ -109,7 +108,11 @@ void strcat3(char dst[], char src){
 	// for(int i = 0; i< strlen(dst); i++){
 	// 	dst
 	// }
-	dst[strlen(dst)] = src;
+
+	int len = strlen(dst);
+	
+	dst[len] = src;
+	dst[len+1] = '\0';
 }
 int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 
@@ -120,7 +123,7 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 		return -2;
 	}
 
-	tmpFile = fopen("tmp.bin", "wb+");
+	tmpFile = fopen("TestingFiles/tmp.bin", "wb+");
 	if (!tmpFile) {
 		printf("Cannot create output file");
 		return -2;
@@ -151,7 +154,7 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 
 	//reconvert src from codesMap[] after current zeros
 	while ((currentChar = fgetc(src)) != EOF) {
-		fprintf(tmpFile, "%s\n", codesMap[currentChar]);
+		fprintf(tmpFile, "%s", codesMap[currentChar]);
 	}
 
 	fseek(tmpFile, 0, SEEK_SET);
@@ -160,16 +163,20 @@ int binaryWritingFile(char srcName[], char dstName[], char *codesMap[]) {
 	int counter = 0;
 	char currentCode[8];
 	while ((currentChar = fgetc(tmpFile)) != EOF){
-		char currentCharStr[2];
-		currentCharStr[0] = currentChar;
-		currentCharStr[1] = '\0';
-		strcat(currentCode, currentCharStr);
+		// char currentCharStr[2];
+		// currentCharStr[0] = currentChar;
+		// currentCharStr[1] = '\0';
+		// strcat(currentCode, currentCharStr);
 		// printf("%s", currentCharStr);
-		
+		// printf("code : %s\n", currentCode);
+		strcat3(currentCode, currentChar);
+
+
+
 		if (++counter % 8 == 0){ //BYT3AML M3AHOM B3D MB2O 8 ASLUN
 			printf("code : %s\n", currentCode);
 			int decEq = convertBinToDec(convertStrToInt(currentCode));
-			fprintf(dst, "%d ", currentCode);
+			fprintf(dst, "%d", currentCode);
 			currentCode[0] = '\0';
 		}
 	}
@@ -215,13 +222,14 @@ int main()
 	// HashTable tabel[getSizeOfCodesMap(codesMap)];
 
 	int codesMapSize = getSizeOfCodesMap(codesMap);
-	printf("%d\n", codesMapSize);
+	// printf("%d\n", codesMapSize);
 	// serializeCodesMap(codesMap, codesMapSize, "TestingFiles/codesbin.cod");
+	char path2[] = "TestingFiles/out.com";
 
-	binaryWritingFile(path, "TestingFiles/test.txt", codesMap);
+	binaryWritingFile(path, path2, codesMap);
 	// printCodes(codesMap);
 	// deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
 	//serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
-
+	
 	return 0;
 }
