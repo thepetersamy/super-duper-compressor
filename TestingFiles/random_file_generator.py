@@ -24,4 +24,4 @@ def generate_big_random_letters(filename,length):
         f.write(chars)
     pass
 
-generate_big_random_letters("2.txt", 1000000)
+generate_big_random_letters("2.txt", 10_000_000_000)

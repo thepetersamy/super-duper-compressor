@@ -1,7 +1,7 @@
 import filecmp
   
-f1 = "/home/peter/stuff/huffman-compressor/Huffman-compressor/Huffman-compressor/file1.txt"
-f2 = "/home/peter/stuff/huffman-compressor/Huffman-compressor/Huffman-compressor/file2.txt"
+f1 = "TestingFiles/tmp.bin"
+f2 = "TestingFiles/tmp2.bin"
   
 
 result = filecmp.cmp(f1, f2, shallow=False)
