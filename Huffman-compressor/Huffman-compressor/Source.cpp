@@ -1,4 +1,15 @@
 #include "Utils.h"
+	// currentCode1+currentChar;
+		// for (int i = 0; i < 256; i++) {
+		// 	// std::cout<<codesMap[i]<<std::endl;
+		// 	if (codesMap[i] == currentCode1) {
+		// 		printf("%c : %d", i, i);
+		// 		fprintf(dst, "%c", i);
+		// 		currentCode1.clear();
+		// 		break;
+		// 	}	
+		// }
+
 int getSizeOfCodesMap(char *codesMap[])
 {
 	int counter = 0;
@@ -14,7 +25,7 @@ int getSizeOfCodesMap(char *codesMap[])
 int decToBinary(int n, char result[9])
 {
 	// array to store binary number
-	int binaryNum[8] = {5};
+	int binaryNum[8] = {0};
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -321,7 +332,7 @@ int compress2(char srcName[], char dstName[], std::map<char, std::string> &codes
 	//convertBinToDec from codesMap[] to 0/1
 	while ((currentChar = fgetc(src)) != EOF) {
 		
-		printf("%c : %s",currentChar, codesMap[currentChar].c_str());
+		// printf("%c : %s",currentChar, codesMap[currentChar].c_str());
 		fprintf(tmpFile, "%s", codesMap[currentChar].c_str());
 	}
 
@@ -410,8 +421,9 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 		unsigned char digit;
 		digit = currentChar;
 		char tempStr[9];
+		tempStr[9] = '\0';
 		decToBinary(digit, tempStr);
-		printf("%s", tempStr);
+		// printf("%s", tempStr);
 		fprintf(tmpFile, "%s", tempStr);
 	}
 
@@ -431,26 +443,17 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 
 	std::string currentCode1;
 	while ((currentChar = fgetc(tmpFile)) != EOF){
-		// currentCode1+currentChar;
-		// for (int i = 0; i < 256; i++) {
-		// 	// std::cout<<codesMap[i]<<std::endl;
-		// 	if (codesMap[i] == currentCode1) {
-		// 		printf("%c : %d", i, i);
-		// 		fprintf(dst, "%c", i);
-		// 		currentCode1.clear();
-		// 		break;
-		// 	}	
-		// }
-
 		std::map<char, std::string>::iterator it;
 		currentCode1+=currentChar;
 		for(it = codesMap.begin(); it != codesMap.end(); it++){
-			std::cout<<"comparing : "<<currentCode1<<"     "<<currentCode1<<std::endl;
-			if (it->second == currentCode1) {
+			std::string code = it->second.c_str();
+			bool res = currentCode1 == code;
+			// std::cout<<"comparing : "<<currentCode1<<"     "<<code<<"   result : "<<res<<std::endl;
+			if (currentCode1 == code) {
 				fprintf(dst, "%c", it->first);
-				std::cout<<"character : "<<it->first<<std::endl;
+				// std::cout<<"character : "<<it->first<<std::endl;
 				currentCode1.clear();
-				break;
+				// break;
 			}
 		}
 		// std::cout<<std::endl;
@@ -463,6 +466,8 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 
 int main()
 {
+	
+
 	Node *LinkedTree = NULL;
 
 	int frequencyMap[256];
@@ -472,7 +477,7 @@ int main()
 	char current[50];
 	current[0] = '\0';
 
-	char path[] = "TestingFiles/test.txt";
+	char path[] = "TestingFiles/1.txt";
 	char path2[] = "TestingFiles/out.com";
 
 	generateFrequencyTable(path, frequencyMap);
@@ -495,15 +500,15 @@ int main()
 	generateCodes2(LinkedTree, codesMapNew0);
 
 	serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
-	printCodes2(codesMapNew0);
+	// printCodes2(codesMapNew0);
 	
 	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
-	printCodes2(codesMapNew);
+	// printCodes2(codesMapNew);
 
 	compress2(path, "TestingFiles/out.com",codesMapNew);
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 	// compress(path, path2, codesMapOld);
-	decompress1(path2, "TestingFiles/decompress.txt", codesMapNew);
+	decompress1(path2, "TestingFiles/2_d.txt", codesMapNew);
 	return 0;
 }
