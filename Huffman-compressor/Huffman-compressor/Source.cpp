@@ -256,17 +256,16 @@ void decompress(char srcName[], char dstName[], char *codesMap[]){
 
 }
 int main()
-{
-	Node *LinkedTree = NULL;
+{Node *LinkedTree = NULL;
 
 	int frequencyMap[256];
-	char *codesMap[256];
-	char *codesMapNew[256];
-	initCodesMap(codesMapNew);
+	char *codesMapOld[256];
+	// char *codesMapNew[256];
+	// initCodesMap(codesMapNew);
 	char current[50];
 	current[0] = '\0';
 
-	char path[] = "D:/stuff/DCW/input.txt";
+	char path[] = "TestingFiles/test.txt";
 
 	generateFrequencyTable(path, frequencyMap);
 
@@ -274,20 +273,28 @@ int main()
 
 	LinkedTree = buildHuffmanTree(LinkedTree);
 
-	generateCodes(LinkedTree, current, codesMap);
+	// generateCodes(LinkedTree, current, codesMapOld);
 
-	// copyCodesMapToTable(&allCodesTable, codesMap);
-	// HashTable tabel[getSizeOfCodesMap(codesMap)];
-
-	int codesMapSize = getSizeOfCodesMap(codesMap);
-	// printf("%d\n", codesMapSize);
-	// serializeCodesMap(codesMap, codesMapSize, "TestingFiles/codesbin.cod");
-	char path2[] = "TestingFiles/out.com";
-
-	compress(path, path2, codesMap);
-	// printCodes(codesMap);
-	// deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
-	serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
 	
+	// int codesMapSize = getSizeOfCodesMap(codesMapOld);
+	// printf("%d\n", codesMapSize);
+	// serializeCodesMap(codesMapOld, codesMapSize, "TestingFiles/codesbin.cod");
+	// std::map<char, std::string> codesMap;
+	// encodeTree2(LinkedTree, current, codesMap);
+	// printCodes2(codesMap);
+	std::map<char, std::string> codesMapNew;
+	std::map<char, std::string> codesMapNew0;
+	std::map<char, std::string> last;
+	generateCodes2(LinkedTree, codesMapNew0);
+
+	serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
+	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
+	printCodes2(codesMapNew0);
+
+
+	generateCodes2(LinkedTree, last);
+	serializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	deserializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	printCodes2(codesMapNew);
 	return 0;
 } 
