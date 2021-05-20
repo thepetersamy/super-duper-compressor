@@ -13,33 +13,33 @@ int getSizeOfCodesMap(char *codesMap[])
 }
 int decToBinary(int n, char result[9])
 {
-    // array to store binary number
-    int binaryNum[8] = {5};
-	
-	for(int i = 0; i < 8; i++)
+	// array to store binary number
+	int binaryNum[8] = {5};
+
+	for (int i = 0; i < 8; i++)
 	{
 		result[i] = '0';
 	}
-    // counter for binary array
-    int i = 0;
-    while (n > 0) {
- 
-        // storing remainder in binary array
-        binaryNum[i] = n % 2;
-        n = n / 2;
-        i++;
-    }
-	
-    // printing binary array in reverse order
-    for (int j = 7, n = 0; j>= 0; j-- ,n++)
+	// counter for binary array
+	int i = 0;
+	while (n > 0)
+	{
+
+		// storing remainder in binary array
+		binaryNum[i] = n % 2;
+		n = n / 2;
+		i++;
+	}
+
+	// printing binary array in reverse order
+	for (int j = 7, n = 0; j >= 0; j--, n++)
 	{
 		if (binaryNum[n] == 1)
-        	result[j] = '1';
+			result[j] = '1';
 		else if (binaryNum[n] == 0)
-        	result[j] = '0';
+			result[j] = '0';
 	}
 	result[8] = '\0';
-	
 }
 
 void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePath)
@@ -72,14 +72,16 @@ void serializeCodesMap2(std::map<char, std::string> &codesMap, const char *fileP
 	// printf("%d\n", sizeOfCodesMap);
 	FILE *file = fopen(filePath, "a");
 	std::map<char, std::string>::iterator it;
-	for(it = codesMap.begin(); it != codesMap.end(); it++){
+	for (it = codesMap.begin(); it != codesMap.end(); it++)
+	{
 		// printf("%c : %s\n", it->first, it->second);
 		// std::cout<<it->first<<it->second<<std::endl;
 
 		// printf("%c", it->first);
 		fprintf(file, "%c", it->first);
 
-		for(int i=0; it->second[i] != '\0'; i++){
+		for (int i = 0; it->second[i] != '\0'; i++)
+		{
 			// printf("%c", it->second[i]);
 			fprintf(file, "%c", it->second[i]);
 		}
@@ -89,7 +91,7 @@ void serializeCodesMap2(std::map<char, std::string> &codesMap, const char *fileP
 		// fprintf(file, "%c%s\n", ch, codesMap[ch]);
 		//printf("%c %s\n", ch, codesMap[ch]);
 	}
-	
+
 	fclose(file);
 }
 
@@ -128,18 +130,20 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 	fclose(file);
 }
 
-void deserializeCodesMap2(std::map<char, std::string> &codesMap, const char*filePath){
+void deserializeCodesMap2(std::map<char, std::string> &codesMap, const char *filePath)
+{
 	FILE *file = fopen(filePath, "r");
 	char line[256];
 	char code[30];
-	
-	while (fgets(line, 45, file)){
+
+	while (fgets(line, 45, file))
+	{
 
 		char character = line[0];
 		shiftLeft(line);
 		std::string cppStr = line;
-		codesMap.insert(std::pair<char,std::string>(character, cppStr));
-		
+		codesMap.insert(std::pair<char, std::string>(character, cppStr));
+
 		// printf("%c : %s\n", character, line);
 
 		//strcpy(line, codesMap[character] );
@@ -148,7 +152,6 @@ void deserializeCodesMap2(std::map<char, std::string> &codesMap, const char*file
 	}
 	//printf("\n");
 	fclose(file);
-
 }
 size_t getFileCharNumbers(FILE *file)
 {
@@ -238,11 +241,10 @@ int compress(char srcName[], char dstName[], char *codesMap[])
 	int extraZeros;
 	extraZeros = 8 - (totalFileBits % 8);
 
-
 	char tmpStr[9];
 	decToBinary(extraZeros, tmpStr);
 	fprintf(tmpFile, "%s", tmpStr);
-	for (int i = 0; i < extraZeros; i++)		
+	for (int i = 0; i < extraZeros; i++)
 		fprintf(tmpFile, "0");
 
 	fseek(src, 0, SEEK_SET);
@@ -255,7 +257,6 @@ int compress(char srcName[], char dstName[], char *codesMap[])
 
 	fseek(tmpFile, 0, SEEK_SET);
 
-	
 	//convert to ascii
 	int eightNums = ftell(tmpFile) / 8;
 	int counter = 0;
@@ -302,7 +303,6 @@ int compress(char srcName[], char dstName[], char *codesMap[])
 	fclose(tmpFile);
 }
 
-
 int decompress1(char srcName[], char dstName[], char *codesMap[])
 {
 	FILE *src, *tmpFile, *dst;
@@ -329,7 +329,7 @@ int decompress1(char srcName[], char dstName[], char *codesMap[])
 	char currentChar;
 	while ((currentChar = fgetc(src)) != EOF)
 	{
-	    unsigned char digit;
+		unsigned char digit;
 		digit = currentChar;
 		char tempStr[9];
 		decToBinary(digit, tempStr);
@@ -337,28 +337,43 @@ int decompress1(char srcName[], char dstName[], char *codesMap[])
 		fprintf(tmpFile, "%s", tempStr);
 	}
 
-
-
-	fseek(tmpFile,0, SEEK_SET);
+	fseek(tmpFile, 0, SEEK_SET);
 	char currentCode[8];
-	for (int i= 0 ; i < 8 ;i++)
+	for (int i = 0; i < 8; i++)
 	{
 		currentCode[i] = fgetc(tmpFile);
 	}
 	int numZeros = convertBinToDec(convertStrToInt(currentCode));
-	for (int i= 0 ; i < numZeros ;i++)
+	for (int i = 0; i < numZeros; i++)
 	{
 		currentChar = fgetc(tmpFile);
 	}
-	fseek(tmpFile, 0, SEEK_CUR); 
-	fprintf(tmpFile, "7");
+
+	fseek(tmpFile, 0, SEEK_CUR);
+
+	char ;
+	while ((currentChar = fgetc(tmpFile)) != EOF)
+	{
+		for (int i = 0; i < 256; i++)
+		{
+			if (codesMap[i] == currentChar)
+			{
+				fprintf(dst, "%");
+			}
+			else
+			{
+				//ya5od al b3do fl file m3 al file
+			}
+		}
+	}
+
 	fclose(src);
 	fclose(dst);
 	fclose(tmpFile);
-
 }
 int main()
-{Node *LinkedTree = NULL;
+{
+	Node *LinkedTree = NULL;
 
 	int frequencyMap[256];
 	char *codesMapOld[256];
@@ -368,6 +383,7 @@ int main()
 	current[0] = '\0';
 
 	char path[] = "TestingFiles/test.txt";
+	char path2[] = "TestingFiles/out.com";
 
 	generateFrequencyTable(path, frequencyMap);
 
@@ -377,7 +393,6 @@ int main()
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 
-	
 	// int codesMapSize = getSizeOfCodesMap(codesMapOld);
 	// printf("%d\n", codesMapSize);
 	// serializeCodesMap(codesMapOld, codesMapSize, "TestingFiles/codesbin.cod");
@@ -387,16 +402,19 @@ int main()
 	std::map<char, std::string> codesMapNew;
 	std::map<char, std::string> codesMapNew0;
 	std::map<char, std::string> last;
-	generateCodes2(LinkedTree, codesMapNew0);
+	// generateCodes2(LinkedTree, codesMapNew0);
 
-	serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
-	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
-	printCodes2(codesMapNew0);
+	// serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
+	// deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
+	// printCodes2(codesMapNew0);
 
+	// generateCodes2(LinkedTree, last);
+	// serializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	// deserializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	// printCodes2(codesMapNew);
 
-	generateCodes2(LinkedTree, last);
-	serializeCodesMap2(last, "TestingFiles/codesbin2.cod");
-	deserializeCodesMap2(last, "TestingFiles/codesbin2.cod");
-	printCodes2(codesMapNew);
+	generateCodes(LinkedTree, current, codesMapOld);
+	compress(path, path2, codesMapOld);
+	decompress1(path2, "TestingFiles/decompress.txt", codesMapOld);
 	return 0;
 }
