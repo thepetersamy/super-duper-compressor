@@ -24,7 +24,7 @@ void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePat
 	{
 		if (codesMap[ch] != NULL)
 		{
-			printf("%c%s\n", ch, codesMap[ch]);
+			// printf("%c%s\n", ch, codesMap[ch]);
 			// fwrite(codesMap[i], sizeof(codesMap[i]), sizeOfCodesMap, file);
 			fprintf(file, "%c%s\n", ch, codesMap[ch]);
 			//printf("%c %s\n", ch, codesMap[ch]);
@@ -32,6 +32,37 @@ void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePat
 	}
 	fclose(file);
 }
+
+void serializeCodesMap2(std::map<char, std::string> &codesMap, const char *filePath)
+{
+	//clearing content "should be opt in future"
+	FILE *file1 = fopen(filePath, "w");
+	fclose(file1);
+
+	// printf("%d\n", sizeOfCodesMap);
+	FILE *file = fopen(filePath, "a");
+	std::map<char, std::string>::iterator it;
+	for(it = codesMap.begin(); it != codesMap.end(); it++){
+		// printf("%c : %s\n", it->first, it->second);
+		// std::cout<<it->first<<it->second<<std::endl;
+
+		// printf("%c", it->first);
+		fprintf(file, "%c", it->first);
+
+		for(int i=0; it->second[i] != '\0'; i++){
+			// printf("%c", it->second[i]);
+			fprintf(file, "%c", it->second[i]);
+		}
+		fprintf(file, "\n");
+
+		// fwrite(codesMap[i], sizeof(codesMap[i]), sizeOfCodesMap, file);
+		// fprintf(file, "%c%s\n", ch, codesMap[ch]);
+		//printf("%c %s\n", ch, codesMap[ch]);
+	}
+	
+	fclose(file);
+}
+
 // shift all characters one place to the left starting with the given index
 void shiftLeft(char str[])
 {
@@ -57,7 +88,7 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 		//concatenateString(code, line);
 		char character = line[0];
 		shiftLeft(line);
-		printf("%c : %s\n", character, line);
+		// printf("%c : %s\n", character, line);
 
 		//strcpy(line, codesMap[character] );
 
@@ -67,6 +98,28 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 	fclose(file);
 }
 
+void deserializeCodesMap2(std::map<char, std::string> &codesMap, const char*filePath){
+	FILE *file = fopen(filePath, "r");
+	char line[256];
+	char code[30];
+	
+	while (fgets(line, 45, file)){
+
+		char character = line[0];
+		shiftLeft(line);
+		std::string cppStr = line;
+		codesMap.insert(std::pair<char,std::string>(character, cppStr));
+		
+		// printf("%c : %s\n", character, line);
+
+		//strcpy(line, codesMap[character] );
+
+		//codesMap[(int)character] = line;
+	}
+	//printf("\n");
+	fclose(file);
+
+}
 size_t getFileCharNumbers(FILE *file)
 {
 	size_t count = 0;
