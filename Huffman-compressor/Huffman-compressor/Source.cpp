@@ -54,7 +54,7 @@ void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePat
 	{
 		if (codesMap[ch] != NULL)
 		{
-			printf("%c%s\n", ch, codesMap[ch]);
+			// printf("%c%s\n", ch, codesMap[ch]);
 			// fwrite(codesMap[i], sizeof(codesMap[i]), sizeOfCodesMap, file);
 			fprintf(file, "%c%s\n", ch, codesMap[ch]);
 			//printf("%c %s\n", ch, codesMap[ch]);
@@ -62,6 +62,37 @@ void serializeCodesMap(char *codesMap[], int sizeOfCodesMap, const char *filePat
 	}
 	fclose(file);
 }
+
+void serializeCodesMap2(std::map<char, std::string> &codesMap, const char *filePath)
+{
+	//clearing content "should be opt in future"
+	FILE *file1 = fopen(filePath, "w");
+	fclose(file1);
+
+	// printf("%d\n", sizeOfCodesMap);
+	FILE *file = fopen(filePath, "a");
+	std::map<char, std::string>::iterator it;
+	for(it = codesMap.begin(); it != codesMap.end(); it++){
+		// printf("%c : %s\n", it->first, it->second);
+		// std::cout<<it->first<<it->second<<std::endl;
+
+		// printf("%c", it->first);
+		fprintf(file, "%c", it->first);
+
+		for(int i=0; it->second[i] != '\0'; i++){
+			// printf("%c", it->second[i]);
+			fprintf(file, "%c", it->second[i]);
+		}
+		fprintf(file, "\n");
+
+		// fwrite(codesMap[i], sizeof(codesMap[i]), sizeOfCodesMap, file);
+		// fprintf(file, "%c%s\n", ch, codesMap[ch]);
+		//printf("%c %s\n", ch, codesMap[ch]);
+	}
+	
+	fclose(file);
+}
+
 // shift all characters one place to the left starting with the given index
 void shiftLeft(char str[])
 {
@@ -87,7 +118,7 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 		//concatenateString(code, line);
 		char character = line[0];
 		shiftLeft(line);
-		printf("%c : %s\n", character, line);
+		// printf("%c : %s\n", character, line);
 
 		//strcpy(line, codesMap[character] );
 
@@ -97,6 +128,28 @@ void deSerializeCodesMap(char *codesMap[256], const char *filePath)
 	fclose(file);
 }
 
+void deserializeCodesMap2(std::map<char, std::string> &codesMap, const char*filePath){
+	FILE *file = fopen(filePath, "r");
+	char line[256];
+	char code[30];
+	
+	while (fgets(line, 45, file)){
+
+		char character = line[0];
+		shiftLeft(line);
+		std::string cppStr = line;
+		codesMap.insert(std::pair<char,std::string>(character, cppStr));
+		
+		// printf("%c : %s\n", character, line);
+
+		//strcpy(line, codesMap[character] );
+
+		//codesMap[(int)character] = line;
+	}
+	//printf("\n");
+	fclose(file);
+
+}
 size_t getFileCharNumbers(FILE *file)
 {
 	size_t count = 0;
@@ -305,13 +358,12 @@ int decompress1(char srcName[], char dstName[], char *codesMap[])
 
 }
 int main()
-{
-	Node *LinkedTree = NULL;
+{Node *LinkedTree = NULL;
 
 	int frequencyMap[256];
-	char *codesMap[256];
-	char *codesMapNew[256];
-	initCodesMap(codesMapNew);
+	char *codesMapOld[256];
+	// char *codesMapNew[256];
+	// initCodesMap(codesMapNew);
 	char current[50];
 	current[0] = '\0';
 
@@ -323,25 +375,28 @@ int main()
 
 	LinkedTree = buildHuffmanTree(LinkedTree);
 
-	generateCodes(LinkedTree, current, codesMap);
+	// generateCodes(LinkedTree, current, codesMapOld);
 
-	// copyCodesMapToTable(&allCodesTable, codesMap);
-	// HashTable tabel[getSizeOfCodesMap(codesMap)];
-
-	int codesMapSize = getSizeOfCodesMap(codesMap);
+	
+	// int codesMapSize = getSizeOfCodesMap(codesMapOld);
 	// printf("%d\n", codesMapSize);
-	// serializeCodesMap(codesMap, codesMapSize, "TestingFiles/codesbin.cod");
-	char path2[] = "TestingFiles/out.com";
+	// serializeCodesMap(codesMapOld, codesMapSize, "TestingFiles/codesbin.cod");
+	// std::map<char, std::string> codesMap;
+	// encodeTree2(LinkedTree, current, codesMap);
+	// printCodes2(codesMap);
+	std::map<char, std::string> codesMapNew;
+	std::map<char, std::string> codesMapNew0;
+	std::map<char, std::string> last;
+	generateCodes2(LinkedTree, codesMapNew0);
 
-	compress(path, path2, codesMap);
-	char path3[] = "TestingFiles/decompress.txt";
-	decompress1(path2, path3, codesMap);
-	char str[8];
-	decToBinary(3, str);
-	// printf("%s", str);
-	// printCodes(codesMap);
-	// deSerializeCodesMap(codesMapNew, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
-	// serializeCodesMap(codesMapNew, codesMapSize, "D:/stuff/huffman-compressor/testingFiles/codesbin.cod");
+	serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
+	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
+	printCodes2(codesMapNew0);
 
+
+	generateCodes2(LinkedTree, last);
+	serializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	deserializeCodesMap2(last, "TestingFiles/codesbin2.cod");
+	printCodes2(codesMapNew);
 	return 0;
 }

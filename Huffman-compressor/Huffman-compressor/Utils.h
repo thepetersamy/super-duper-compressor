@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <iostream>
+#include <map>
 #include "FrequencyTable.h"
 #include "LinkedList.h"
 #include "HashTable.h"
@@ -20,9 +22,6 @@ Node *generatePriorityQueue(Node *h, int map[256]){
 }
 
 
-bool isLeaf(Node* root) {
-	return root->left == NULL && root->right == NULL;
-}
 
 char *concatenateString(char* str1, const char* str2){
 	int str1Len = strlen(str1);
@@ -76,6 +75,9 @@ void initCodesMap(char* codesMap[]){
 	}
 }
 
+bool isLeaf(Node* root) {
+	return root->left == NULL && root->right == NULL;
+}
 void encodeTree(Node* root, char currentCode[], char* codesMap[]) {
 	if (!root)
 		return;
@@ -87,6 +89,22 @@ void encodeTree(Node* root, char currentCode[], char* codesMap[]) {
 	encodeTree(root->right, concatenateString(currentCode, "1"), codesMap);
 }
 
+
+void encodeTree2(Node* root, std::string currentCode, std::map<char, std::string> &codesMap) {
+	if (!root)
+		return;
+
+	// else if(isLeaf(root) && root->data){
+	// 	codesMap.insert(std::pair<char,std::string>(root->data, currentCode));
+	// }
+
+	else if (isLeaf(root)) {
+		// codesMap[root->data] = currentCode;
+		codesMap.insert(std::pair<char,std::string>(root->data, currentCode));
+	}
+	encodeTree2(root->left, currentCode + "0",  codesMap);
+	encodeTree2(root->right, currentCode + "1", codesMap);
+}
 
 // void encodeTree2(Node* root, char currentCode[], HashTable* table, sizeOfHashTable) {
 // 	if (!root)
@@ -106,6 +124,16 @@ void printCodes(char* codesMap[]){
 		}
 	}
 }
+void printCodes2(std::map<char, std::string> &codesMap){
+	
+	std::map<char, std::string>::iterator it;
+	
+	for(it = codesMap.begin(); it != codesMap.end(); it++){
+		// printf("%c : %s\n", it->first, it->second);
+		std::cout<<it->first<<" : "<<it->second<<std::endl;
+	}
+	std::cout<<std::endl;
+}
 
 void generateCodes(Node* root, char* currentCode, char* codesMap[]){
 	initCodesMap(codesMap);	
@@ -114,4 +142,14 @@ void generateCodes(Node* root, char* currentCode, char* codesMap[]){
 	//printCodes(codesMap);
 }
 
+
+bool generateCodes2(Node* root, std::map<char, std::string> &codesMap){
+	std::string currentCode;
+	if(root->left == NULL && root->right == NULL){
+		codesMap.insert(std::pair<char,std::string>(root->data, "0"));
+	}
+	else{
+		encodeTree2(root, currentCode, codesMap);
+	}
+}
 #endif //HUFFMAN_UTILS_H
