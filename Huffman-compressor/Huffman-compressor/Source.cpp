@@ -385,32 +385,28 @@ int compress2(char srcName[], char dstName[], std::map<char, std::string> &codes
 	fclose(tmpFile);
 }
 
-int decompress1(char srcName[], char dstName[], char *codesMap[])
+int decompress1(char srcName[], char dstName[], std::map<char, std::string> &codesMap)
 {
 	FILE *src, *tmpFile, *dst;
 	src = fopen(srcName, "rb");
-	if (!src)
-	{
+	if (!src) {
 		printf("Cannot read input file");
 		return -2;
 	}
 
 	tmpFile = fopen("TestingFiles/tmp2.bin", "wb+");
-	if (!tmpFile)
-	{
+	if (!tmpFile) {
 		printf("Cannot create output file");
 		return -2;
 	}
 	dst = fopen(dstName, "wb+");
-	if (!dst)
-	{
+	if (!dst) {
 		printf("Cannot create output file");
 		return -2;
 	}
 
 	char currentChar;
-	while ((currentChar = fgetc(src)) != EOF)
-	{
+	while ((currentChar = fgetc(src)) != EOF){
 		unsigned char digit;
 		digit = currentChar;
 		char tempStr[9];
@@ -433,20 +429,31 @@ int decompress1(char srcName[], char dstName[], char *codesMap[])
 
 	fseek(tmpFile, 0, SEEK_CUR);
 
-	char ;
-	while ((currentChar = fgetc(tmpFile)) != EOF)
-	{
-		for (int i = 0; i < 256; i++)
-		{
-			if (codesMap[i] == currentChar)
-			{
-				fprintf(dst, "%");
-			}
-			else
-			{
-				//ya5od al b3do fl file m3 al file
+	std::string currentCode1;
+	while ((currentChar = fgetc(tmpFile)) != EOF){
+		// currentCode1+currentChar;
+		// for (int i = 0; i < 256; i++) {
+		// 	// std::cout<<codesMap[i]<<std::endl;
+		// 	if (codesMap[i] == currentCode1) {
+		// 		printf("%c : %d", i, i);
+		// 		fprintf(dst, "%c", i);
+		// 		currentCode1.clear();
+		// 		break;
+		// 	}	
+		// }
+
+		std::map<char, std::string>::iterator it;
+		currentCode1+=currentChar;
+		for(it = codesMap.begin(); it != codesMap.end(); it++){
+			std::cout<<"comparing : "<<currentCode1<<"     "<<currentCode1<<std::endl;
+			if (it->second == currentCode1) {
+				fprintf(dst, "%c", it->first);
+				std::cout<<"character : "<<it->first<<std::endl;
+				currentCode1.clear();
+				break;
 			}
 		}
+		// std::cout<<std::endl;
 	}
 
 	fclose(src);
@@ -474,9 +481,9 @@ int main()
 
 	LinkedTree = buildHuffmanTree(LinkedTree);
 
-	// generateCodes(LinkedTree, current, codesMapOld);
+	generateCodes(LinkedTree, current, codesMapOld);
 
-	// int codesMapSize = getSizeOfCodesMap(codesMapOld);
+	int codesMapSize = getSizeOfCodesMap(codesMapOld);
 	// printf("%d\n", codesMapSize);
 	// serializeCodesMap(codesMapOld, codesMapSize, "TestingFiles/codesbin.cod");
 	// std::map<char, std::string> codesMap;
@@ -485,7 +492,7 @@ int main()
 	std::map<char, std::string> codesMapNew;
 	std::map<char, std::string> codesMapNew0;
 	std::map<char, std::string> last;
-	// generateCodes2(LinkedTree, codesMapNew0);
+	generateCodes2(LinkedTree, codesMapNew0);
 
 	serializeCodesMap2(codesMapNew0, "TestingFiles/codesbin.cod");
 	printCodes2(codesMapNew0);
@@ -497,6 +504,6 @@ int main()
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 	// compress(path, path2, codesMapOld);
-	// decompress1(path2, "TestingFiles/decompress.txt", codesMapOld);
+	decompress1(path2, "TestingFiles/decompress.txt", codesMapNew);
 	return 0;
 }
