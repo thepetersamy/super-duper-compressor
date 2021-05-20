@@ -94,9 +94,6 @@ void encodeTree2(Node* root, std::string currentCode, std::map<char, std::string
 	if (!root)
 		return;
 
-	// else if(isLeaf(root) && root->data){
-	// 	codesMap.insert(std::pair<char,std::string>(root->data, currentCode));
-	// }
 
 	else if (isLeaf(root)) {
 		// codesMap[root->data] = currentCode;
@@ -105,17 +102,6 @@ void encodeTree2(Node* root, std::string currentCode, std::map<char, std::string
 	encodeTree2(root->left, currentCode + "0",  codesMap);
 	encodeTree2(root->right, currentCode + "1", codesMap);
 }
-
-// void encodeTree2(Node* root, char currentCode[], HashTable* table, sizeOfHashTable) {
-// 	if (!root)
-// 		return;
-
-// 	else if (isLeaf(root)) {
-// 		insertItemTable(&table, root->data, currentCode);
-// 	}
-// 	encodeTree(root->left, concatenateString(currentCode, "0"), insertItemTable(&table, root->data, ));
-// 	encodeTree(root->right, concatenateString(currentCode, "1"), codesMap);
-// }
 
 void printCodes(char* codesMap[]){
 	for(int i = 0; i < 256; i++){
