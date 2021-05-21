@@ -15,7 +15,7 @@ def generate_big_random_letters(filename,length):
     
     import random
     import string
-    letters = "1234567890-=!@#$%^&*()_+qwertyuiop[]\\QWERTY\nUIOP{}|asdfghjkl;\'ASDFGHJKL:\"zxcvbnm,./ZXCVBNM<>?"
+    letters = "1234567890-=!@#$%^&*()_+qwertyuiop[]\\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:\"zxcvbnm,./ZXCVBNM<>?"
 
     chars = ''.join([random.choice(letters) for i in range(length)]) #1
 
@@ -24,4 +24,4 @@ def generate_big_random_letters(filename,length):
         f.write(chars)
     pass
 
-generate_big_random_letters("2.txt", 10_000_000_000)
+generate_big_random_letters("2.txt", 100000000)

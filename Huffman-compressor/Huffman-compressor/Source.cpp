@@ -25,11 +25,11 @@ int getSizeOfCodesMap(char *codesMap[])
 int decToBinary(int n, char result[9])
 {
 	// array to store binary number
-	int binaryNum[8] = {0};
-
-	for (int i = 0; i < 8; i++)
-	{
+	int binaryNum[8];// = {0};
+	
+	for (int i = 0; i < 8; i++) {
 		result[i] = '0';
+		binaryNum[i] = 0;
 	}
 	// counter for binary array
 	int i = 0;
@@ -416,15 +416,19 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 		return -2;
 	}
 
+	//solve of the provlem will be anna mnst8dm4 EOF w bdlha counter b size al file .com (src)
+	int fileNumbers = ftell(src); 
 	char currentChar;
-	while ((currentChar = fgetc(src)) != EOF){
+	int counter = 0;
+	while (counter < fileNumbers){
+		currentChar = fgetc(src);
 		unsigned char digit;
 		digit = currentChar;
 		char tempStr[9];
-		tempStr[9] = '\0';
 		decToBinary(digit, tempStr);
-		// printf("%s", tempStr);
+		printf("%s\n", tempStr);
 		fprintf(tmpFile, "%s", tempStr);
+		counter++;
 	}
 
 	fseek(tmpFile, 0, SEEK_SET);
@@ -440,7 +444,7 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 	}
 
 	fseek(tmpFile, 0, SEEK_CUR);
-
+	
 	std::string currentCode1;
 	while ((currentChar = fgetc(tmpFile)) != EOF){
 		std::map<char, std::string>::iterator it;
@@ -453,7 +457,12 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 				fprintf(dst, "%c", it->first);
 				// std::cout<<"character : "<<it->first<<std::endl;
 				currentCode1.clear();
-				// break;
+				// std::cout<<currentCode1;
+				// for(int i=0;i<currentCode1.length(); i++){
+
+				// 	currentCode1[i] = '\0';
+				// }
+				break;
 			}
 		}
 		// std::cout<<std::endl;
@@ -466,7 +475,9 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 
 int main()
 {
-	
+	char bin[9];
+	decToBinary(10, bin);
+	// printf("%s",bin);
 
 	Node *LinkedTree = NULL;
 
@@ -477,7 +488,7 @@ int main()
 	char current[50];
 	current[0] = '\0';
 
-	char path[] = "TestingFiles/1.txt";
+	char path[] = "TestingFiles/2.txt";
 	char path2[] = "TestingFiles/out.com";
 
 	generateFrequencyTable(path, frequencyMap);
@@ -509,6 +520,6 @@ int main()
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 	// compress(path, path2, codesMapOld);
-	decompress1(path2, "TestingFiles/2_d.txt", codesMapNew);
+	decompress1(path2, "TestingFiles/3_d.txt", codesMapNew);
 	return 0;
 }
