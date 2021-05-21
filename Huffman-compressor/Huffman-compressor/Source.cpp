@@ -417,16 +417,20 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 	}
 
 	//solve of the provlem will be anna mnst8dm4 EOF w bdlha counter b size al file .com (src)
-	int fileNumbers = ftell(src); 
+	fseek(src, 0L, SEEK_END);
+	int fileNumbers = ftell(src);
+	// printf("%d", fileNumbers); 
 	char currentChar;
 	int counter = 0;
+	fseek(src, 0L, SEEK_SET);
+
 	while (counter < fileNumbers){
 		currentChar = fgetc(src);
 		unsigned char digit;
 		digit = currentChar;
 		char tempStr[9];
 		decToBinary(digit, tempStr);
-		printf("%s\n", tempStr);
+		// printf("%s\n", tempStr);
 		fprintf(tmpFile, "%s", tempStr);
 		counter++;
 	}
@@ -454,14 +458,10 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 			bool res = currentCode1 == code;
 			// std::cout<<"comparing : "<<currentCode1<<"     "<<code<<"   result : "<<res<<std::endl;
 			if (currentCode1 == code) {
-				fprintf(dst, "%c", it->first);
-				// std::cout<<"character : "<<it->first<<std::endl;
+				char x = it->first;
+				fprintf(dst, "%c", x);
 				currentCode1.clear();
-				// std::cout<<currentCode1;
-				// for(int i=0;i<currentCode1.length(); i++){
 
-				// 	currentCode1[i] = '\0';
-				// }
 				break;
 			}
 		}
@@ -505,6 +505,7 @@ int main()
 	// std::map<char, std::string> codesMap;
 	// encodeTree2(LinkedTree, current, codesMap);
 	// printCodes2(codesMap);
+	// printf("test" );
 	std::map<char, std::string> codesMapNew;
 	std::map<char, std::string> codesMapNew0;
 	std::map<char, std::string> last;
@@ -515,11 +516,15 @@ int main()
 	
 	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
 	// printCodes2(codesMapNew);
-
+	printf("[COMPRESSING...]\n");
 	compress2(path, "TestingFiles/out.com",codesMapNew);
+	printf("[DONE COMPRESSING]\n");
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 	// compress(path, path2, codesMapOld);
+	printf("[DECOMPRESSING...]\n");
 	decompress1(path2, "TestingFiles/3_d.txt", codesMapNew);
+	printf("[DONE DECOMPRESSING]\n");
+	
 	return 0;
 }
