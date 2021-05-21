@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include<time.h>
 	// currentCode1+currentChar;
 		// for (int i = 0; i < 256; i++) {
 		// 	// std::cout<<codesMap[i]<<std::endl;
@@ -451,16 +452,20 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 	
 	std::string currentCode1;
 	while ((currentChar = fgetc(tmpFile)) != EOF){
-		std::map<char, std::string>::iterator it;
+		std::map<char, std::string>::iterator it; // try moving up
 		currentCode1+=currentChar;
+		// try iteratin over characters 
 		for(it = codesMap.begin(); it != codesMap.end(); it++){
 			std::string code = it->second.c_str();
-			bool res = currentCode1 == code;
+			// bool res = currentCode1 == code;
 			// std::cout<<"comparing : "<<currentCode1<<"     "<<code<<"   result : "<<res<<std::endl;
 			if (currentCode1 == code) {
 				char x = it->first;
+				if(x == '\n'){
+					fprintf(dst, "\r", x);
+				}
 				fprintf(dst, "%c", x);
-				currentCode1.clear();
+				currentCode1.clear(); // try opt hena
 
 				break;
 			}
@@ -473,6 +478,96 @@ int decompress1(char srcName[], char dstName[], std::map<char, std::string> &cod
 	fclose(tmpFile);
 }
 
+int decompressOpt(char srcName[], char dstName[], std::map<char, std::string> &codesMap){
+	FILE *src, *tmpFile, *dst;
+	src = fopen(srcName, "rb");
+	if (!src) {
+		printf("Cannot read input file");
+		return -2;
+	}
+
+	tmpFile = fopen("TestingFiles/tmp2.bin", "wb+");
+	if (!tmpFile) {
+		printf("Cannot create output file");
+		return -2;
+	}
+	dst = fopen(dstName, "wb+");
+	if (!dst) {
+		printf("Cannot create output file");
+		return -2;
+	}
+
+	//solve of the provlem will be anna mnst8dm4 EOF w bdlha counter b size al file .com (src)
+	fseek(src, 0L, SEEK_END);
+	int fileNumbers = ftell(src);
+	// printf("%d", fileNumbers); 
+	char currentChar;
+	int counter = 0;
+	fseek(src, 0L, SEEK_SET);
+
+	while (counter < fileNumbers){
+		currentChar = fgetc(src);
+		unsigned char digit;
+		digit = currentChar;
+		char tempStr[9];
+		decToBinary(digit, tempStr);
+		// printf("%s\n", tempStr);
+		fprintf(tmpFile, "%s", tempStr);
+		counter++;
+	}
+
+	fseek(tmpFile, 0, SEEK_SET);
+	char currentCode[8];
+	for (int i = 0; i < 8; i++)
+	{
+		currentCode[i] = fgetc(tmpFile);
+	}
+	int numZeros = convertBinToDec(convertStrToInt(currentCode));
+	for (int i = 0; i < numZeros; i++)
+	{
+		currentChar = fgetc(tmpFile);
+	}
+
+	fseek(tmpFile, 0, SEEK_CUR);
+	
+	std::string currentCode1;
+	// std::map<char, std::string>::iterator it; // try moving up
+	while ((currentChar = fgetc(tmpFile)) != EOF){
+		currentCode1+=currentChar;
+		// while(codesMap.contains(currentCode1) ){
+		// 	// char x =currentCode1;
+		// 	printf("%d", currentChar);
+		// 	fprintf(dst, "%c", currentChar);
+		// 	currentCode1.clear(); // try opt hena
+		// }
+		for (auto& it : codesMap) {
+ 
+			// If mapped value is K,
+			// then print the key value
+			std::string value= it.second;
+			// value[value.length()-1] = '\0'; 	
+			std::cout<<it.second;
+
+			if (value == currentCode1) {
+				char x = it.first;
+				printf("%c", x);
+				if(x == '\n'){
+					fprintf(dst, "\r", x);
+				}
+				fprintf(dst, "%c", x);
+				// cout << it.first << ' ';
+			}
+		}
+    }
+		
+		// std::cout<<std::endl;
+	
+
+	fclose(src);
+	fclose(dst);
+	fclose(tmpFile);
+
+}
 int main()
 {
 	char bin[9];
@@ -516,15 +611,21 @@ int main()
 	
 	deserializeCodesMap2(codesMapNew, "TestingFiles/codesbin.cod");
 	// printCodes2(codesMapNew);
-	printf("[COMPRESSING...]\n");
+	printf("COMPRESSING...\n");
 	compress2(path, "TestingFiles/out.com",codesMapNew);
-	printf("[DONE COMPRESSING]\n");
+	printf("DONE COMPRESSING\n");
 
 	// generateCodes(LinkedTree, current, codesMapOld);
 	// compress(path, path2, codesMapOld);
-	printf("[DECOMPRESSING...]\n");
+	clock_t t;
+	t = clock();
+	printf("[DECOMPRESSING]...\n");
+	
 	decompress1(path2, "TestingFiles/3_d.txt", codesMapNew);
-	printf("[DONE DECOMPRESSING]\n");
+	
+	t = clock() -t;
+	double time_taken = ((double)t)/CLOCKS_PER_SEC;
+	printf("[DONE] time taken : %f\n", time_taken);
 	
 	return 0;
 }
