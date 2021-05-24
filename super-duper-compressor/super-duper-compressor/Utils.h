@@ -6,7 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include<time.h>
+#include <time.h>
+#include <conio.h>
 #include <iostream>
 #include <map>
 #include "FrequencyTable.h"

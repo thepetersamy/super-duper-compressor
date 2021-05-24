@@ -22,6 +22,6 @@ int main(int argc, char* argv[]) {
 	else {
 		printHelp();
 	}
-
+	getch();
 	return 0;
 }
