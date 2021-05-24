@@ -1,31 +1,18 @@
-#ifndef HUFFMAN_LINKEDLIST_H
-#define HUFFMAN_LINKEDLIST_H
+#ifndef SDC_LINKEDTREE_H
+#define SDC_LINKEDTREE_H
 
 typedef struct Node {
 	int frequency;
 	char data;
-	struct Node *next, *left, *right;
+	struct Node* next, * left, * right;
 }Node;
 
 
-void freeLinkedTree(Node *root){
-	// no memory waste what so ever
-	if(root == NULL){
-		free(root);
-		return;
-	}
-	freeLinkedTree(root->left);
-	freeLinkedTree(root->right);
-}
-
-
-
-
-Node *insertSort(Node *h, int frequency, char item) {
+Node* insertSort(Node* h, int frequency, char item) {
 
 	// if Node is empty
 	if (h == NULL) {
-		h = (Node *) malloc(sizeof(Node));
+		h = (Node*)malloc(sizeof(Node));
 		h->frequency = frequency;
 		h->data = item;
 		h->next = h->left = h->right = NULL;
@@ -41,7 +28,7 @@ Node *insertSort(Node *h, int frequency, char item) {
 	}
 	else {
 		// 2 iterators to place new item in between
-		Node *itAfter = h, *itBefore = h;
+		Node* itAfter = h, * itBefore = h;
 
 		while (itAfter->frequency <= frequency && itAfter->next != NULL) {
 			itBefore = itAfter;
@@ -49,14 +36,14 @@ Node *insertSort(Node *h, int frequency, char item) {
 		}
 		// insert last
 		if (itAfter->next == NULL && itAfter->frequency <= frequency) {
-			itAfter->next = (Node *) malloc(sizeof(Node));
+			itAfter->next = (Node*)malloc(sizeof(Node));
 			itAfter->next->frequency = frequency;
 			itAfter->next->data = item;
 			itAfter->next->next = itAfter->next->left = itAfter->next->right = NULL;
 		}
 		// insert in between
 		else {
-			Node *tmp = (Node *) malloc(sizeof(Node));
+			Node* tmp = (Node*)malloc(sizeof(Node));
 			tmp->left = tmp->right = NULL;
 			tmp->frequency = frequency;
 			tmp->data = item;
@@ -68,7 +55,7 @@ Node *insertSort(Node *h, int frequency, char item) {
 	return h;
 }
 
-Node *buildHuffmanTree(Node *h) {
+Node* buildHuffmanTree(Node* h) {
 	// if isEmpty
 	if (h == NULL)
 		return NULL;
@@ -78,7 +65,7 @@ Node *buildHuffmanTree(Node *h) {
 		return h;
 
 	else {
-		Node *p = (Node *) malloc(sizeof(Node)); // create parent node
+		Node* p = (Node*)malloc(sizeof(Node)); // create parent node
 		p->frequency = h->next->frequency + h->frequency; // init parent with sum of 2 nodes
 		p->data = '\0'; // placing NULL at data bc parent it has no data
 		// placing first 2 items of priority queue to tree
@@ -94,14 +81,14 @@ Node *buildHuffmanTree(Node *h) {
 		}
 		// insert first
 		else if (p->frequency < h->frequency) {
-			Node *tmp = h; // storing old head in tmp
+			Node* tmp = h; // storing old head in tmp
 			h = p; // let h point to p(new head)
 			h->next = tmp; // let new head point to old head
 		}
 		// inserting at middle or end
 		else {
-			Node *itAfter = h, *itBefore = h;
-			while (p->frequency >= itAfter->frequency  && itAfter->next != NULL) {
+			Node* itAfter = h, * itBefore = h;
+			while (p->frequency >= itAfter->frequency && itAfter->next != NULL) {
 				itBefore = itAfter;
 				itAfter = itAfter->next;
 			}
@@ -123,13 +110,13 @@ Node *buildHuffmanTree(Node *h) {
 }
 
 
-void printList(Node *head){
-	Node *iterator = head;
-	while(iterator != NULL){
+void printList(Node* head) {
+	Node* iterator = head;
+	while (iterator != NULL) {
 		printf("%c:%d\t", iterator->data, iterator->frequency);
 		iterator = iterator->next;
 	}
 	printf("\n\n");
 }
 
-#endif //HUFFMAN_LINKEDLIST_H
+#endif //SDC_LINKEDTREE_H

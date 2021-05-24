@@ -1,5 +1,5 @@
-#ifndef HUFFMAN_FREQUENCYTABLE_H
-#define HUFFMAN_FREQUENCYTABLE_H
+#ifndef SDC_FREQUENCYTABLE_H
+#define SDC_FREQUENCYTABLE_H
 
 bool generateFrequencyTable(char filePath[], int map[256]) {
 
@@ -7,7 +7,7 @@ bool generateFrequencyTable(char filePath[], int map[256]) {
 		map[i] = 0;
 	}
 
-	FILE *file;
+	FILE* file;
 	file = fopen(filePath, "r");
 
 	if (!file) {
@@ -26,11 +26,11 @@ bool generateFrequencyTable(char filePath[], int map[256]) {
 }
 
 
-void printFrequencyTable(int map[256]){
+void printFrequencyTable(int map[256]) {
 	for (int i = 0; i < 256; i++) {
 		if (map[i] != 0)
 			printf("%c : %d\n", i, map[i]);
 	}
 }
- 
-#endif //HUFFMAN_FREQUENCYTABLE_H
+
+#endif //SDC_FREQUENCYTABLE_H
