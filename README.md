@@ -1,3 +1,3 @@
-# huffman-compressor
+# super-duper-compressor
 
-data structures project
+a huffman coding compression software
